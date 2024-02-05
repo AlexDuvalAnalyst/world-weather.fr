@@ -12,6 +12,8 @@ library(xts)
 
 # pour ajouter un element html il suffit de mettre tags$ devant, et apres ça fonctionne
 # comme du html classique, on peut attribuer une class pour le css aussi
+year <- year(Sys.Date())
+max_date <- paste0(year,"-12-31")
 fluidPage(useShinyjs(),
           #tags$style(HTML("::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
           #                color: white;
@@ -103,7 +105,7 @@ fluidPage(useShinyjs(),
                             actionButton('valid',class = "btn1",'', icon = icon("paper-plane", class="fa-sharp fa-solid fa-paper-plane"))),
                    tags$div(class = "slide",
                             sliderInput("range", "",
-                                        min = as.Date("2000-01-01"), max = as.Date("2023-01-01"),
+                                        min = as.Date("2000-01-01"), max = as.Date(max_date),
                                         value = c(as.Date("2009-01-01"),as.Date("2022-10-01")),
                                         ticks = FALSE)
                    ),
