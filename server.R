@@ -11,28 +11,8 @@ library(shinycssloaders)
 library(leaflet)
 library(fontawesome)
 library(xts)
-
-# pour creer un python virtuel
-# installer pip 3
-# terminal, se mettre dans le dossier du projet, faire py -m install virtualenv
-# puis py -m venv 'nom de l'environnement' # pour creer 
-# pour l'activer : 'nom de l'environnement'\Scripts\activate
-# pip install pour y installer les modules
-# deactivate pour quitter (il y a pas de faute de frappe)
-
-#setwd("C:/Users/alexa/Desktop/projet_perso/climat")
-
-#prcp = precipitation totale en mm
-#wspd = vitesse moyenne des vents en km/h
-#pres = pression atmospherique moyenne hPa
-
+	
 use_virtualenv("~/climate/venv/", required = TRUE)
-#use_virtualenv("/Users/duval/Documents/climat/myenv/", required = TRUE)
-
-
-#virtualenv_create(envname = "python_environment", python= "python3")
-#virtualenv_install("python_environment", packages = c('meteostat', 'pandas'), ignore_installed = TRUE)
-#reticulate::use_virtualenv("python_environment", required = TRUE)
 
 source_python("~/climate/getdata.py")
 
@@ -41,10 +21,6 @@ source_python("~/climate/getdata.py")
 # peut mettre Hourly, Daily, Monthly
 # les donnees daily sont mise à jour jusqu'à j - 15
 # les donnees hourly sont mise à jour jusqu'à j -1
-# peut envisager une combine des deux pour faciler le chargement des données histo puis récupérer plus finemenet les dernières
-# nom de colonne different en hourly car ce sont les mesures reelles sans regroupement
-#dt <- getdt('Rouen',Hourly, "2022-01-01 00:00:00", "2023-01-29 00:00:00")
-#dt$dateheure <- as_datetime(rownames(dt))
 
   bbmin <- reactiveVal(NULL)
   bbmax <- reactiveVal(NULL)
@@ -60,10 +36,8 @@ source_python("~/climate/getdata.py")
   name_stations <- st$name
   names(name_stations) <- st$display_name
   
-  
   updateSelectizeInput(session,"recherche", choices = name_stations, selected = "", server = T)
   
-  #observe({click("go")})
   # ne mettre à jour les données que lorsque le bouton de validation est enclenché
   observeEvent(input$valid,{
     
@@ -82,11 +56,6 @@ source_python("~/climate/getdata.py")
     
   })
   
-  # si le trigger est une reactiveValue mis à jour dans l'observeEvent, elle se met à jour AVANT les dates input
-  # et donc déclence le click sur le bouton go avant que les dates soient bien changées.
-  # les inputs ne sont mis à jour qu'une fois que l'observeEvent est complètement terminé, c'est pour ça que j'ai
-  # créée un input invisible "trigger" qui ne se met à jour qu'une fois que l'observeEvent valid est terminé et qui va ensuite
-  # déclencher le click sur le bouton go
   observeEvent(input$trigger,{
     observe({shinyjs::click("go")})
   })
