@@ -12,8 +12,7 @@ library(xts)
 
 # pour ajouter un element html il suffit de mettre tags$ devant, et apres ça fonctionne
 # comme du html classique, on peut attribuer une class pour le css aussi
-year <- year(Sys.Date())
-max_date <- paste0(year,"-12-31")
+max_date <- paste0(year(Sys.Date()),"-",month(Sys.Date()),"-",day(Sys.Date()))
 fluidPage(useShinyjs(),
           #tags$style(HTML("::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
           #                color: white;
